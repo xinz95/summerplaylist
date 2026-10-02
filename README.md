@@ -14,7 +14,7 @@ Everything is in `index.html`. It has no build step and no dependencies. Fonts c
 ## How playback works
 
 - Browsers won't play sound until a visitor interacts with the page. The **Start the day with sound** button, or the play button in the bottom player, turns autoplay on.
-- With autoplay on, each chapter plays its featured track when you scroll into it. When a clip ends, the next song in the same chapter plays.
+- With autoplay on, each chapter plays its featured track when you scroll into it. Only the featured track autoplays. When its clip ends, playback stops until you scroll into the next chapter.
 - Every song also has its own **Preview** button.
 - If Spotify ever stops serving a preview, the player says so and the cover links to the track on Spotify.
 

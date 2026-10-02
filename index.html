@@ -435,7 +435,7 @@ const TR={"75GyGLjB9yFLTVltUlDVKI":["e00dc8b398072467a1f3f03e","cfa7df57bb6e9f60
 const PLAYLIST_URL='https://open.spotify.com/playlist/6vUc7Dv9MNFFEQOUqtrW0l';
 const S = (sp,t,a,by,why,extra={}) => ({sp,t,a,by,why,...extra});
 const CH = [
- {id:'dawn', style:'lock', min:402, label:'6:42 AM', title:'Spring Bleeds Into Summer', feature:'4dUOhTTMy4ITIbNQKPKYFP',
+ {id:'dawn', style:'lock', min:402, label:'6:42 AM', title:'Spring Bleeds Into Summer', feature:'7s2kWabRM60W9I61HpKg8C',
   dek:'The songs that showed up right as the weather turned.', top:'#e2668f', bot:'#ffb38a',
   songs:[
    S('4dUOhTTMy4ITIbNQKPKYFP','Going Shopping','The Strokes','Anonymous','I started hearing it a lot as spring bled into summer.'),
@@ -443,7 +443,7 @@ const CH = [
    S('75GyGLjB9yFLTVltUlDVKI','dirty wedding dress','Bleachers','Rebecca J.'),
    S('3zOYmiNOuyDL0ClxJcEJ0T','Stop The Wedding!','Ashe','Added on Spotify')
  ]},
- {id:'repeat', style:'ipod', min:495, label:'8:15 AM', title:'On Repeat', feature:'4y3VBhJPEztyRmNxfK3tZ5',
+ {id:'repeat', style:'ipod', min:495, label:'8:15 AM', title:'On Repeat', feature:'25nbeJzxF3dwvtTq57QKZi',
   dek:'Whole albums, worn thin on the commute.', top:'#7fdcff', bot:'#d6ff8f',
   songs:[
    S('4y3VBhJPEztyRmNxfK3tZ5','All Them Horses','Noah Kahan','Larisa','This whole album was my summer album and this is my favorite song on it.'),
@@ -471,14 +471,14 @@ const CH = [
    S('6i2ifddYVX3yKRd9DO25mj','Rein Me In','Sam Fender, Olivia Dean','Becca'),
    S('1o9mAOmNm3wT2NdyGV1Ard','Babydoll','Jamie Miller','Added on Spotify')
  ]},
- {id:'live', style:'insta', min:1198, label:'7:58 PM', title:'Saw It Live', feature:'5zX4JjkoT2pgvlWPnjgVNQ',
+ {id:'live', style:'insta', min:1198, label:'7:58 PM', title:'Saw It Live', feature:'4mYALBEaw2EEyuxJ2PhYwG',
   dek:'Three songs that got bigger once we heard them in a crowd.', top:'#d5417a', bot:'#ff9a4a',
   songs:[
    S('5zX4JjkoT2pgvlWPnjgVNQ','What A Life','FISHER, Florence Arman','Matthew V.','I listened to this song live back in May, felt like summer finally kicked off after that point.',{loc:'Live · back in May'}),
    S('4vGQNeWAh2WKPYsqhp5wSg','Got to Get You Into My Life','Earth, Wind & Fire','Greg S.','Classic hit and saw them live this summer.',{loc:'Live · this summer'}),
    S('4mYALBEaw2EEyuxJ2PhYwG','Goodnight','Florence Road','Julia',"The perfect amount of angst to run to! I also got the chance to see this song performed live and it's been in my head ever since.",{loc:'Live · on repeat since'})
  ]},
- {id:'through', style:'tumblr', min:1367, label:'10:47 PM', title:'Getting Through It', feature:'7g13jf3zqlP5S68Voo5v9m',
+ {id:'through', style:'tumblr', min:1367, label:'10:47 PM', title:'Getting Through It', feature:'1ZBQPkEYHOv3LfgU6v0h0S',
   dek:'Exams, feelings, and the songs that carried us past both.', top:'#2b2462', bot:'#8a3f7a',
   songs:[
    S('6wm3t4VpTxSFfOUgTMlHZM','The Peace','underscores','Anonymous','This song got me through my exam.',{tags:['exam szn','made it']}),
@@ -831,11 +831,7 @@ function onChapter(i){ // i = index into CH, -1 for hero
 }
 audio.addEventListener('play',markPlaying); audio.addEventListener('pause',markPlaying);
 audio.addEventListener('timeupdate',()=>{ if(audio.duration) dProg.style.width=(audio.currentTime/audio.duration*100)+'%'; });
-audio.addEventListener('ended',()=>{ // keep going through the chapter
-  markPlaying(); if(!autoOn||!current) return;
-  const c=CH[current.ci]; const nxt=c.songs.slice(current.si+1).concat(c.songs.slice(0,current.si)).find(x=>x.prev);
-  if(nxt) play(nxt);
-});
+audio.addEventListener('ended',()=>{ markPlaying(); }); // one featured song per chapter, then silence until the next chapter
 audio.addEventListener('error',()=>{ dA.textContent='Preview unavailable here. Open it in Spotify instead.'; markPlaying(); });
 
 dPlay.addEventListener('click',()=>{
