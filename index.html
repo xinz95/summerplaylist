@@ -549,7 +549,7 @@ const CH = [
    S('4jDkjMVf4FqGQRgBIMZez1','Your Direction','Goose','Anonymous','Has a yacht rock vibe about it.',{icon:'boat'}),
    S('3PEZQCkCP37Dn9MBn3Imys','Besame Mucho','Lisa Ono','Sin N.','Love (not only romantically) is in the air! This song is a reminder to appreciate the time spent with those you love and who support you most.',{icon:'heart'}),
    S('6MEDfjHxnVNcYmHe3mM6L2','Sweet Life','Frank Ocean','Xin',null,{icon:'sun'}),
-   S('3QuRLv8zkIYH31O5VgEpmo',"Carla's Song",'Harry Styles','Suporna',null,{icon:'note',note:'Her second choice. Her first pick, Midnight Sun, was already on the list.'})
+   S('3QuRLv8zkIYH31O5VgEpmo',"Carla's Song",'Harry Styles','Suporna',null,{icon:'note'})
  ]},
  {id:'loud', style:'snap', min:960, label:'4:00 PM', title:'Full Volume', feature:'2J051fjLklkoPbzOoTAACZ',
   dek:'Windows down, kids singing, somebody doing the dance.', top:'#ffbe2e', bot:'#ff7a3d',
@@ -580,7 +580,7 @@ const CH = [
  {id:'dark', style:'arcade', min:1444, label:'12:04 AM', title:'After Dark', feature:'37UCSVSqiPGdR1DijOFyYY',
   dek:'The sun is down. The volume is not.', top:'#07061a', bot:'#220d42',
   songs:[
-   S('37UCSVSqiPGdR1DijOFyYY','Midnight Sun','Zara Larsson','Anonymous',null,{note:"Also Suporna's first pick."}),
+   S('37UCSVSqiPGdR1DijOFyYY','Midnight Sun','Zara Larsson','Anonymous',null),
    S('1KtD0xaLAikgIt5tPbteZQ','Thinking About You','Calvin Harris, Ayah Marar','Xin'),
    S('29I9dv9Nq704w0Oc5yFGsR',"She's Gone, Dance On",'Disclosure','Xin'),
    S('3FZoov0ORtnr8TznSNI1y2','brand new chanel$','Slayyyter','Anonymous'),
@@ -908,20 +908,79 @@ CH.forEach(c=>{
 document.querySelectorAll('[data-d]').forEach(el=>el.style.transitionDelay=(el.dataset.d*90)+'ms');
 document.getElementById('heroTitle').style.textShadow = longShadow('rgba(80,30,90,.10)',40);
 
-/* ---------- pixel art: skyline + pixelated covers ---------- */
+/* ---------- pixel art: Astoria Blvd platform at dusk + pixelated covers ---------- */
 (function(){
   const cv=document.getElementById('pix'); if(!cv) return; const x=cv.getContext('2d');
-  x.fillStyle='#0d0b22';x.fillRect(0,0,240,70);
+  const W=240,HZ=31,VX=131; // canvas width, horizon row, highway vanishing x
   let seed=7;const rnd=()=>(seed=(seed*9301+49297)%233280)/233280;
-  for(let i=0;i<40;i++){x.fillStyle=rnd()>.5?'#5af7ff':'#ffffff';x.fillRect(Math.floor(rnd()*240),Math.floor(rnd()*30),1,1)}
-  x.fillStyle='#fffc3d';[[196,8,8],[194,10,12],[193,12,14],[193,14,14],[193,16,14],[194,18,12],[196,20,8]].forEach(([a,b,w])=>x.fillRect(a,b,w,2));
-  x.fillStyle='#0d0b22';x.fillRect(202,9,8,12);
-  let px=0;while(px<240){const w=6+Math.floor(rnd()*12),h=14+Math.floor(rnd()*30);x.fillStyle=rnd()>.5?'#2a1d6e':'#3a1a5e';x.fillRect(px,70-h,w,h);
-    for(let yy=70-h+3;yy<68;yy+=4)for(let xx=px+2;xx<px+w-2;xx+=3){if(rnd()>.55){x.fillStyle=rnd()>.5?'#ff4fd8':'#fffc3d';x.fillRect(xx,yy,1,1)}}
-    px+=w+1}
-  x.fillStyle='#5af7ff';for(let yy=36;yy<70;yy+=2)x.fillRect(30+Math.floor((70-yy)/10),yy,2,2);
-  [[-10,-4],[-7,-6],[-3,-7],[3,-7],[7,-6],[10,-4],[-12,-2],[12,-2]].forEach(([dx,dy])=>{x.fillRect(34+dx,36+dy+(Math.abs(dx)>9?2:0),2,2)});
-  x.fillRect(26,32,16,2);x.fillRect(24,34,4,2);x.fillRect(40,34,4,2);
+  const r=(a,b,w,h,c)=>{x.fillStyle=c;x.fillRect(a,b,w,h)};
+  // dusk sky, ordered-dithered between bands
+  const sky=['#140f30','#22143e','#33194a','#4a2150','#652a52','#833652','#a24552','#bd5a54'],bay=[[0,.5],[.75,.25]];
+  for(let yy=3;yy<HZ;yy++){const t=(yy-3)/(HZ-4)*(sky.length-1),i=Math.floor(t),f=t-i;
+    for(let xx=0;xx<W;xx++)r(xx,yy,1,1,sky[Math.min(sky.length-1,i+(f>bay[yy&1][xx&1]?1:0))])}
+  r(112,22,30,1,'#5e2850');r(122,23,16,1,'#5e2850');r(148,20,12,1,'#4e2250');
+  // ground + scattered city lights
+  r(0,HZ,W,23,'#110c26');
+  const city=['#ffb347','#ffb347','#fffc3d','#ffffff','#ff9a3d','#ff3b4a'];
+  for(let i=0;i<170;i++)r(20+Math.floor(rnd()*(W-20)),HZ+Math.floor(rnd()*21),1,1,city[Math.floor(rnd()*city.length)]);
+  // skyline [x,width,top]
+  [[20,8,20],[28,7,24],[35,3,19],[38,9,23],[47,7,21],[54,11,25],[65,6,22],[71,12,26],[83,5,24],[88,9,27],[97,3,22],[100,24,28]]
+    .forEach(([a,w,t])=>{r(a,t,w,HZ-t+1,'#150f2e');for(let yy=t+2;yy<HZ;yy+=3)for(let xx=a+1;xx<a+w-1;xx+=2)if(rnd()>.85)r(xx,yy,1,1,'#ffb347')});
+  r(36,15,1,4,'#150f2e');r(98,18,1,4,'#150f2e');
+  r(0,3,20,51,'#0a0820');for(let yy=6;yy<52;yy+=3)for(let xx=2;xx<18;xx+=3)if(rnd()>.8)r(xx,yy,1,1,'#3a2f6a');
+  // highway: white headlights coming in, red taillights going out
+  for(let yy=HZ;yy<53;yy++){const t=(yy-HZ)/(53-HZ),l=Math.round(VX+(78-VX)*t),rr=Math.round(VX+(178-VX)*t);r(l,yy,rr-l,1,'#1a1434')}
+  const lane=(bx,cols)=>{for(let yy=HZ+1;yy<53;yy++){const t=(yy-HZ)/(53-HZ);if(rnd()<.75-t*.4){const c=cols[rnd()>.5?1:0];r(Math.round(VX+(bx-VX)*t),yy,t>.55&&rnd()>.5?2:1,1,c)}}};
+  [84,92,100,108,116,122].forEach(b=>lane(b,['#ffffff','#fff3c4']));
+  [138,146,154,162,170].forEach(b=>lane(b,['#ff3b4a','#ff7a5a']));
+  // suspension bridge: suspenders, cables, towers, lit deck
+  const T1=160,T2=196,cab=xx=>xx<T1+2?12+(T1+2-xx)/38*16+2*Math.sin(Math.PI*(T1+2-xx)/38)
+    :xx<=T2+2?24-12*((xx-(T1+T2+4)/2)/((T2-T1)/2))**2:12+(xx-T2-2)/(W-T2-2)*15+2*Math.sin(Math.PI*(xx-T2-2)/(W-T2-2));
+  for(let xx=125;xx<W;xx+=3){const yy=Math.round(cab(xx));r(xx,yy+1,1,28-yy-1,'#3a2a66')}
+  for(let xx=124;xx<W;xx++)r(xx,Math.round(cab(xx)),1,1,'#2a1d55');
+  [T1,T2].forEach(t=>{r(t,12,1,20,'#2a1d55');r(t+4,12,1,20,'#2a1d55');r(t+1,10,3,2,'#2a1d55');r(t,13,5,1,'#2a1d55');r(t,18,5,1,'#2a1d55');r(t+1,24,3,1,'#2a1d55')});
+  r(124,29,W-124,1,'#241a48');for(let xx=124;xx<W;xx+=2)r(xx,28,1,1,xx%4?'#fffc3d':'#fff3c4');
+  // station: canopy, pillar, platform edge, floor
+  r(0,0,W,2,'#0a0818');r(0,2,W,1,'#2a2450');r(20,1,180,1,'#8c84c8');
+  r(229,0,6,59,'#1b2030');r(229,0,1,59,'#2e3650');
+  // station sign hung from the canopy: white mixed-case lettering on a black band, MTA-style
+  const FONT={A:['.##.','#..#','####','#..#','#..#'],s:['...','.##','#..','..#','##.'],t:['.#.','###','.#.','.#.','..#'],
+    o:['....','.##.','#..#','#..#','.##.'],r:['...','#.#','##.','#..','#..'],i:['#','.','#','#','#'],a:['...','.##','#.#','#.#','.##'],
+    ' ':['..','..','..','..','..'],B:['###.','#..#','###.','#..#','###.'],l:['#','#','#','#','#'],v:['...','#.#','#.#','#.#','.#.'],d:['..#','.##','#.#','#.#','.##']};
+  const label='Astoria Blvd',tw=[...label].reduce((n,ch)=>n+FONT[ch][0].length+1,-1),sx=62,sw=tw+31;
+  r(sx+6,3,1,2,'#4a4560');r(sx+sw-7,3,1,2,'#4a4560');r(sx,5,sw,13,'#3a3650');r(sx+1,6,sw-2,11,'#0b0b0f');
+  let gx=sx+4;[...label].forEach(ch=>{FONT[ch].forEach((row,j)=>[...row].forEach((p,i)=>{if(p==='#')r(gx+i,9+j,1,1,'#f4f4f4')}));gx+=FONT[ch][0].length+1});
+  // N and W bullets: yellow discs, black letters
+  const DISC=['..#####..','.#######.','#########','#########','#########','#########','#########','.#######.','..#####..'],
+    BUL={N:['#...#','##..#','#.#.#','#..##','#...#'],W:['#...#','#...#','#.#.#','##.##','#...#']};
+  ['N','W'].forEach((k,n)=>{const bx=gx+3+n*10;
+    DISC.forEach((row,j)=>[...row].forEach((p,i)=>{if(p==='#')r(bx+i,7+j,1,1,'#fccc0a')}));
+    BUL[k].forEach((row,j)=>[...row].forEach((p,i)=>{if(p==='#')r(bx+2+i,9+j,1,1,'#0b0b0f')}))});
+  r(0,54,W,4,'#0a0818');r(0,58,W,1,'#d9c23a');r(0,59,W,1,'#b49e2a');r(0,60,W,10,'#2a2540');
+  for(let i=0;i<60;i++)r(Math.floor(rnd()*W),60+Math.floor(rnd()*10),1,1,'#353050');
+  // standing commuter with backpack (behind the bench)
+  const ink='#0c0a16';
+  r(213,15,6,2,ink);r(214,16,5,5,ink);r(215,21,3,1,'#3a2418');
+  r(209,23,15,4,ink);r(210,22,13,16,ink);r(208,24,2,16,ink);r(223,24,2,16,ink);r(208,32,2,8,'#5a3a28');r(223,32,2,8,'#5a3a28');
+  r(203,32,7,12,'#2a2a38');r(204,33,5,1,'#4a4a5c');
+  r(211,38,11,8,ink);r(212,46,4,16,ink);r(218,46,4,16,ink);r(211,62,5,3,'#c8a870');r(218,62,5,3,'#c8a870');
+  // bench: armrest posts, seat, legs
+  [6,38,123,154,186].forEach(p=>{r(p,47,2,5,'#a9a3c0');r(p,47,2,1,'#d6d1e8')});
+  r(0,52,222,1,'#d6d1e8');r(0,53,222,1,'#8f89a8');
+  [6,38,123,186].forEach(p=>{r(p,54,2,11,'#7d7896');r(p-1,65,4,1,'#7d7896')});
+  // seated friend + golf bag
+  r(46,30,5,4,'#1a120c');r(45,31,7,2,'#1a120c');r(47,34,3,1,'#8a6650');
+  r(43,35,11,11,'#1c2140');r(42,36,13,8,'#1c2140');for(let yy=37;yy<45;yy+=3)r(43,yy,11,1,'#2c3358');
+  r(41,46,15,5,'#e6dfd2');r(41,51,15,1,'#bfb7a8');
+  r(44,54,3,9,'#9c7458');r(50,54,3,9,'#9c7458');r(43,63,5,2,'#e6dfd2');r(49,63,5,2,'#e6dfd2');
+  for(let i=0;i<22;i++){r(60+Math.round(i*.35),41+i,6,1,'#1f3a2a');r(60+Math.round(i*.35),41+i,1,1,'#2f5a40')}
+  r(61,40,6,1,'#2f5a40');r(60,37,3,3,'#e6e6e6');r(64,38,2,2,'#cfcfcf');r(66,39,2,2,'#e6e6e6');
+  // white cat hanging out on the bench, watching the traffic
+  const cat=['.w....w...','.ww..ww...','.wwwwwws..','wwwwwwwws.','wwwwwwwws.','.wwwwwws..','..wwwws...','.wwwwwws..','wwwwwwwwws',
+    'wwwwwwwwws','swwwwwwwss','.........w','.........w','.........w','..........w'];
+  const cx=98,cy=41,px=[];cat.forEach((row,j)=>[...row].forEach((ch,i)=>{if(ch!=='.')px.push([cx+i,cy+j,ch])}));
+  px.forEach(([a,b])=>[[1,0],[-1,0],[0,1],[0,-1]].forEach(([dx,dy])=>r(a+dx,b+dy,1,1,'#0a0818')));
+  px.forEach(([a,b,ch])=>r(a,b,1,1,ch==='s'?'#c9c3e6':'#ffffff'));
 })();
 document.querySelectorAll('canvas.pix').forEach(cv=>{
   const x=cv.getContext('2d'); x.imageSmoothingEnabled=true;
