@@ -910,7 +910,10 @@ document.getElementById('heroTitle').style.textShadow = longShadow('rgba(80,30,9
 
 /* ---------- pixel art: Astoria Blvd platform at dusk + pixelated covers ---------- */
 (function(){
-  const cv=document.getElementById('pix'); if(!cv) return; const x=cv.getContext('2d');
+  const cv=document.getElementById('pix'); if(!cv) return; const out=cv.getContext('2d');
+  // the static scene goes on two offscreen layers so traffic can be animated between them
+  const layer=()=>{const c=document.createElement('canvas');c.width=240;c.height=70;return c},bg=layer(),fg=layer();
+  let x=bg.getContext('2d');
   const W=240,HZ=31,VX=131; // canvas width, horizon row, highway vanishing x
   let seed=7;const rnd=()=>(seed=(seed*9301+49297)%233280)/233280;
   const r=(a,b,w,h,c)=>{x.fillStyle=c;x.fillRect(a,b,w,h)};
@@ -928,11 +931,9 @@ document.getElementById('heroTitle').style.textShadow = longShadow('rgba(80,30,9
     .forEach(([a,w,t])=>{r(a,t,w,HZ-t+1,'#150f2e');for(let yy=t+2;yy<HZ;yy+=3)for(let xx=a+1;xx<a+w-1;xx+=2)if(rnd()>.85)r(xx,yy,1,1,'#ffb347')});
   r(36,15,1,4,'#150f2e');r(98,18,1,4,'#150f2e');
   r(0,3,20,51,'#0a0820');for(let yy=6;yy<52;yy+=3)for(let xx=2;xx<18;xx+=3)if(rnd()>.8)r(xx,yy,1,1,'#3a2f6a');
-  // highway: white headlights coming in, red taillights going out
+  // highway surface (traffic is animated below)
   for(let yy=HZ;yy<53;yy++){const t=(yy-HZ)/(53-HZ),l=Math.round(VX+(78-VX)*t),rr=Math.round(VX+(178-VX)*t);r(l,yy,rr-l,1,'#1a1434')}
-  const lane=(bx,cols)=>{for(let yy=HZ+1;yy<53;yy++){const t=(yy-HZ)/(53-HZ);if(rnd()<.75-t*.4){const c=cols[rnd()>.5?1:0];r(Math.round(VX+(bx-VX)*t),yy,t>.55&&rnd()>.5?2:1,1,c)}}};
-  [84,92,100,108,116,122].forEach(b=>lane(b,['#ffffff','#fff3c4']));
-  [138,146,154,162,170].forEach(b=>lane(b,['#ff3b4a','#ff7a5a']));
+  x=fg.getContext('2d');
   // suspension bridge: suspenders, cables, towers, lit deck
   const T1=160,T2=196,cab=xx=>xx<T1+2?12+(T1+2-xx)/38*16+2*Math.sin(Math.PI*(T1+2-xx)/38)
     :xx<=T2+2?24-12*((xx-(T1+T2+4)/2)/((T2-T1)/2))**2:12+(xx-T2-2)/(W-T2-2)*15+2*Math.sin(Math.PI*(xx-T2-2)/(W-T2-2));
@@ -981,6 +982,19 @@ document.getElementById('heroTitle').style.textShadow = longShadow('rgba(80,30,9
   const cx=98,cy=41,px=[];cat.forEach((row,j)=>[...row].forEach((ch,i)=>{if(ch!=='.')px.push([cx+i,cy+j,ch])}));
   px.forEach(([a,b])=>[[1,0],[-1,0],[0,1],[0,-1]].forEach(([dx,dy])=>r(a+dx,b+dy,1,1,'#0a0818')));
   px.forEach(([a,b,ch])=>r(a,b,1,1,ch==='s'?'#c9c3e6':'#ffffff'));
+  // traffic: white headlights coming in, red taillights going out. Each car sits at world distance w
+  // (1 = nearest road row, 25 = horizon) and is drawn at t=1/w, so cars bunch up and slow down near the horizon
+  const LANES=[...[84,92,100,108,116,122].map(b=>[b,-1,['#ffffff','#fff3c4']]),...[138,146,154,162,170].map(b=>[b,1,['#ff3b4a','#ff7a5a']])]
+    .map(([bx,dir,cols])=>{const cars=[];for(let w=1+rnd()*2;w<25;w+=.525+rnd()*1.35)cars.push({w,c:cols[rnd()>.5?1:0]});return{bx,dir,v:.28+rnd()*.24,cars}});
+  const frame=dt=>{out.drawImage(bg,0,0);
+    LANES.forEach(L=>L.cars.forEach(k=>{k.w+=L.dir*L.v*dt;if(k.w<1)k.w+=24;else if(k.w>25)k.w-=24;
+      const t=1/k.w;out.fillStyle=k.c;out.fillRect(Math.round(VX+(L.bx-VX)*t),Math.min(52,Math.round(HZ+t*22)),t>.55?2:1,1)}));
+    out.drawImage(fg,0,0)};
+  frame(0);
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  let on=false,last=0;
+  const tick=now=>{if(!on)return;const dt=last?Math.min(.1,(now-last)/1000):0;last=now;frame(dt);requestAnimationFrame(tick)};
+  new IntersectionObserver(([e])=>{const was=on;on=e.isIntersecting;if(on&&!was){last=0;requestAnimationFrame(tick)}}).observe(cv);
 })();
 document.querySelectorAll('canvas.pix').forEach(cv=>{
   const x=cv.getContext('2d'); x.imageSmoothingEnabled=true;
