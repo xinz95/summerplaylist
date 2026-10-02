@@ -90,8 +90,6 @@ main{position:relative;z-index:1}
 .hero .wrap{width:100%;display:grid;grid-template-columns:minmax(0,1fr);gap:28px}
 .hero .kicker{font:500 13px var(--f-display);letter-spacing:.3em;text-transform:uppercase;color:#fff;opacity:.9}
 .hero h1{margin:0;font:900 clamp(64px,15vw,190px)/.88 var(--f-display);color:#fff;letter-spacing:-.03em;text-wrap:balance}
-.hero h1 em{display:block;font:400 clamp(30px,5.5vw,64px)/1.1 var(--f-script);letter-spacing:0;color:var(--sun);text-shadow:none;margin-top:14px}
-.hero p.lede{max-width:56ch;color:#fff;font-size:clamp(16px,1.6vw,19px);margin:0}
 .toc{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;max-width:980px;margin-top:8px;padding:0;list-style:none}
 .toc a{display:block;text-decoration:none;color:#fff;padding:12px 14px;border-radius:10px;background:rgba(255,255,255,.14);box-shadow:inset 0 0 0 1px rgba(255,255,255,.25);transition:background .2s,transform .2s}
 .toc a:hover{background:rgba(255,255,255,.26);transform:translateY(-2px)}
@@ -252,6 +250,102 @@ main{position:relative;z-index:1}
 .tcard blockquote{margin:14px 0 0;padding-left:14px;border-left:3px solid #dfe3e8;font-size:15px;color:#444}
 .tags{margin-top:14px;display:flex;flex-wrap:wrap;gap:4px 10px;font-size:13px;color:#a7a7a7}
 .tfoot{margin-top:14px;padding-top:12px;border-top:1px solid #eee;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* TI-30XS mascot behind the exam-season chapter. One 28s loop, six scenes:
+   idle 0-14% · nervous 14-29% · coffee 29-46% · asleep 46-68% · startled awake 68-80% · celebrating 80-100% */
+.through .wrap{position:relative;z-index:1}
+.cb{position:absolute;inset:0;overflow:clip;pointer-events:none;z-index:0;--cbw:clamp(140px,15vw,230px)}
+.cb-stick{position:sticky;top:0;height:100vh}
+.cb svg{position:absolute;bottom:96px;left:max(10px,calc((100vw - 760px)/2 - var(--cbw) - 10px));width:var(--cbw);height:auto;overflow:visible;filter:drop-shadow(0 10px 18px rgba(0,0,0,.3))}
+@media (max-width:1099px){.cb{display:none}}
+.cb .limb{fill:none;stroke:#cfd8e8;stroke-width:6;stroke-linecap:round}
+.cb .hand,.cb .shoe{fill:#f2f5fa}
+.cb .brand{font:800 9px var(--f-display);fill:#fff;text-anchor:middle;letter-spacing:-.02em}
+.cb .brand2{font:italic 600 5px var(--f-body);fill:#e6eef3;text-anchor:middle;letter-spacing:.08em}
+.cb .k2{fill:#9bd04a}
+.cb .kl{fill:#fff;opacity:.7}
+.cb .kn{font:700 5px var(--f-body);fill:#1f2937;text-anchor:middle}
+.cb .lcd{font:700 7px ui-monospace,Menlo,Consolas,monospace;fill:#1d2a1a}
+.cb .ln{fill:none;stroke:#1d2a1a;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.cb .fill{fill:#1d2a1a}
+.cb .z{font:800 13px var(--f-display);fill:#e6dcff}
+.cb .drop{fill:#7fd3ff}
+/* resting state (also what reduced-motion users see) */
+.cb-f,.cb-t,.cb-r,.cb-mug,.cb-drop,.cb .z{opacity:0}
+.cb-f1,.cb-t1,.cb-r0{opacity:1}
+.cb-armL{transform-origin:52px 90px;transform:rotate(12deg)}
+.cb-armR{transform-origin:148px 90px;transform:rotate(-12deg)}
+.cb-legR{transform-origin:118px 202px}
+.cb-mug{transform-origin:52px 128px}
+.cb-char{transform-origin:100px 232px;animation:cbChar 28s ease-in-out infinite}
+.cb-shadow{transform-origin:100px 247px;animation:cbShadow 28s ease-in-out infinite}
+.cb-armL{animation:cbArmL 28s ease-in-out infinite}
+.cb-armR{animation:cbArmR 28s ease-in-out infinite}
+.cb-legR{animation:cbTap 28s ease-in-out infinite}
+.cb-mug{animation:cbMug 28s ease-in-out infinite}
+.cb-steam{animation:cbSteam 1.6s ease-in-out infinite}
+.cb-f1{animation:cbF1 28s linear infinite}.cb-f2{animation:cbF2 28s linear infinite}.cb-f3{animation:cbF3 28s linear infinite}
+.cb-f4{animation:cbF4 28s linear infinite}.cb-f5{animation:cbF5 28s linear infinite}.cb-f6{animation:cbF6 28s linear infinite}
+.cb-t1{animation:cbT1 28s linear infinite}.cb-t2{animation:cbT2 28s linear infinite}.cb-t3{animation:cbT3 28s linear infinite}.cb-t4{animation:cbT4 28s linear infinite}
+.cb-r0{animation:cbR0 28s linear infinite}.cb-r1{animation:cbR1 28s linear infinite}
+.cb-eyes{transform-origin:100px 77.5px;animation:cbBlink 28s linear infinite}
+.cb-o{transform-origin:100px 89px;animation:cbBreathe 3s ease-in-out infinite}
+.cb-dropA{animation:cbDropA 28s ease-in infinite}.cb-dropB{animation:cbDropB 28s ease-in infinite}
+.cb-z1{animation:cbZ1 28s ease-out infinite}.cb-z2{animation:cbZ2 28s ease-out infinite}.cb-z3{animation:cbZ3 28s ease-out infinite}
+@keyframes cbChar{
+ 0%,5%,10%,14%,29%,45%,46%,80%,84%,88%,92%,96%,100%{transform:none}
+ 2.5%,7.5%,12.5%{transform:translateY(-1.5px)}
+ 15.75%,19.25%,22.75%,26.25%{transform:rotate(-2deg)} 17.5%,21%,24.5%{transform:rotate(2deg)} 28%{transform:none}
+ 37%{transform:rotate(-3deg)}
+ 50%{transform:rotate(-6deg)} 54%{transform:rotate(-4deg)} 58%{transform:rotate(-9deg)} 62%{transform:rotate(-6deg)} 66%,67.5%{transform:rotate(-10deg)}
+ 68.6%{transform:translateY(-28px)} 70.5%{transform:none} 72%{transform:rotate(4deg)} 74%{transform:rotate(-4deg)} 76%{transform:rotate(3deg)} 78%{transform:rotate(-2deg)}
+ 82%{transform:translateY(-22px) rotate(5deg)} 86%{transform:translateY(-22px) rotate(-5deg)} 90%{transform:translateY(-30px)} 94%{transform:translateY(-8px)}
+}
+@keyframes cbShadow{
+ 0%,70.5%,84%,88%,92%,100%{transform:none;opacity:1} 68.6%,86%{transform:scaleX(.7);opacity:.5} 82%{transform:scaleX(.7);opacity:.5} 90%{transform:scaleX(.6);opacity:.4}
+}
+@keyframes cbArmL{
+ 0%,29%{transform:rotate(12deg)} 7%{transform:rotate(16deg)}
+ 33%,35%,41%{transform:rotate(-84deg)} 37%{transform:rotate(-92deg)} 39%{transform:rotate(-84deg)} 45%,46%{transform:rotate(12deg)}
+ 67.5%{transform:rotate(20deg)}
+ 68.6%{transform:rotate(150deg)} 70%,74%{transform:rotate(168deg)} 72%,76%{transform:rotate(140deg)} 79%{transform:rotate(60deg)}
+ 80%,86%,90%,96%{transform:rotate(165deg)} 82%,88%,92%{transform:rotate(148deg)} 84%{transform:rotate(166deg)} 100%{transform:rotate(12deg)}
+}
+@keyframes cbArmR{
+ 0%,14%{transform:rotate(-12deg)} 16%{transform:rotate(145deg)}
+ 17%,21%,25%{transform:rotate(135deg)} 19%,23%{transform:rotate(155deg)} 28%,67.5%{transform:rotate(-12deg)}
+ 68.6%{transform:rotate(-150deg)} 70%,74%{transform:rotate(-168deg)} 72%,76%{transform:rotate(-140deg)} 79%{transform:rotate(-60deg)}
+ 80%,84%,90%,96%{transform:rotate(-165deg)} 82%,86%,92%{transform:rotate(-148deg)} 88%{transform:rotate(-166deg)} 100%{transform:rotate(-12deg)}
+}
+@keyframes cbMug{ /* counter-rotates the arm so the mug stays upright, with a tilt on each sip */
+ 0%,28.5%{opacity:0;transform:rotate(-12deg) scale(.5)} 30%{opacity:1;transform:rotate(-12deg) scale(1)}
+ 33%,35%,41%{opacity:1;transform:rotate(84deg) scale(1)} 37%{opacity:1;transform:rotate(112deg) scale(1)} 39%{opacity:1;transform:rotate(84deg) scale(1)}
+ 45%{opacity:1;transform:rotate(-12deg) scale(1)} 46%,100%{opacity:0;transform:rotate(-12deg) scale(.5)}
+}
+@keyframes cbTap{ /* impatient foot */
+ 0%,2%,3.5%,5.5%,7%,9%,10.5%,12.5%,13%,100%{transform:none} 1%,4.5%,8%,11.5%{transform:rotate(-14deg)}
+}
+@keyframes cbSteam{0%,100%{opacity:.25;transform:translateY(0)}50%{opacity:.9;transform:translateY(-3px)}}
+@keyframes cbBlink{0%,100%{transform:none} 3%,8%,12%{transform:none} 3.3%,8.3%,12.3%{transform:scaleY(.1)} 3.6%,8.6%,12.6%{transform:none}}
+@keyframes cbBreathe{0%,100%{transform:scale(.75)}50%{transform:scale(1.25)}}
+@keyframes cbF1{0%,13.5%{opacity:1}14%,100%{opacity:0}}
+@keyframes cbF2{0%,13.5%{opacity:0}14%,28.5%{opacity:1}29%,100%{opacity:0}}
+@keyframes cbF3{0%,28.5%{opacity:0}29%,45.5%{opacity:1}46%,100%{opacity:0}}
+@keyframes cbF4{0%,45.5%{opacity:0}46%,67.5%{opacity:1}68%,100%{opacity:0}}
+@keyframes cbF5{0%,67.5%{opacity:0}68%,79.5%{opacity:1}80%,100%{opacity:0}}
+@keyframes cbF6{0%,79.5%{opacity:0}80%,100%{opacity:1}}
+@keyframes cbT1{0%,13.5%{opacity:1}14%,28.5%{opacity:0}29%,45.5%{opacity:1}46%,79.5%{opacity:0}80%,100%{opacity:1}}
+@keyframes cbT2{0%,13.5%{opacity:0}14%,28.5%{opacity:1}29%,100%{opacity:0}}
+@keyframes cbT3{0%,45.5%{opacity:0}46%,67.5%{opacity:1}68%,100%{opacity:0}}
+@keyframes cbT4{0%,67.5%{opacity:0}68%,79.5%{opacity:1}80%,100%{opacity:0}}
+@keyframes cbR0{0%,79.5%{opacity:1}80%,100%{opacity:0}}
+@keyframes cbR1{0%,79.5%{opacity:0}80%,100%{opacity:1}}
+@keyframes cbDropA{0%,15%{opacity:0;transform:translateY(0) scale(.6)} 17%{opacity:1;transform:translateY(0) scale(1)} 23%{opacity:0;transform:translateY(32px) scale(1)} 24%,100%{opacity:0}}
+@keyframes cbDropB{0%,19%{opacity:0;transform:translateY(0) scale(.6)} 21%{opacity:1;transform:translateY(0) scale(1)} 27%{opacity:0;transform:translateY(32px) scale(1)} 28%,100%{opacity:0}}
+@keyframes cbZ1{0%,47%{opacity:0;transform:translate(0,0)} 50%{opacity:.95} 58%{opacity:0;transform:translate(10px,-22px)} 59%,100%{opacity:0}}
+@keyframes cbZ2{0%,52%{opacity:0;transform:translate(0,0)} 55%{opacity:.95} 63%{opacity:0;transform:translate(10px,-22px)} 64%,100%{opacity:0}}
+@keyframes cbZ3{0%,57%{opacity:0;transform:translate(0,0)} 60%{opacity:.95} 67%{opacity:0;transform:translate(10px,-22px)} 68%,100%{opacity:0}}
+@media (prefers-reduced-motion: reduce){.cb *{animation:none!important}}
 .tfoot .icons{display:flex;gap:14px;color:#999}
 .tfoot .icons svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2}
 .tcard .links{margin-top:0}
@@ -282,7 +376,6 @@ main{position:relative;z-index:1}
 .gameover{margin-top:26px;text-align:center;font:400 14px var(--f-pixel);color:#bfb3ff;display:grid;gap:14px;justify-items:center}
 .again{font:700 14px var(--f-pixel);background:#ff4fd8;color:#0d0b22;border:0;padding:12px 18px;cursor:pointer;box-shadow:4px 4px 0 #4a2bff}
 .again:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 #4a2bff}
-footer{position:relative;z-index:1;text-align:center;color:#8f86b8;font-size:13px;padding:0 16px 50px}
 
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
@@ -392,7 +485,6 @@ footer{position:relative;z-index:1;text-align:center;color:#8f86b8;font-size:13p
 #dAuto[aria-pressed="true"]{background:#fff;color:#1a1030}
 @media (max-width:420px){#dAuto{display:none!important}#dock{grid-template-columns:48px minmax(0,1fr) auto}}
 .ch{padding-bottom:calc(clamp(70px,12vh,120px) + 70px)}
-footer{padding-bottom:110px}
 </style>
 </head>
 <body>
@@ -409,9 +501,8 @@ footer{padding-bottom:110px}
 <main id="main">
   <section class="ch hero" id="top" data-top="#3b3a7a" data-bot="#ff9f8a" data-min="360">
     <div class="wrap">
-      <div class="kicker">The group playlist</div>
-      <h1 id="heroTitle">Summer ’26<em>one long day, <span id="songCount">35</span> songs</em></h1>
-      <p class="lede">Everybody sent a song and, most of the time, a reason. We sorted them by the hour they belong to, from the first warm morning to well past midnight. Scroll to start the day.</p>
+      <div class="kicker">NYATL Health</div>
+      <h1 id="heroTitle">Summer ’26 Playlist</h1>
       <div class="hero-actions">
         <button type="button" class="btn-start" id="startBtn"><span class="ring"><svg viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z"/></svg></span>Start the day with sound</button>
         <a class="btn-ghost" href="https://open.spotify.com/playlist/6vUc7Dv9MNFFEQOUqtrW0l" target="_blank" rel="noopener">Full playlist on Spotify</a>
@@ -421,7 +512,6 @@ footer{padding-bottom:110px}
     </div>
   </section>
 </main>
-<footer>Previews are 30-second clips from Spotify. Apple Music buttons open a search. Built from the group’s sign-up sheet and <a href="https://open.spotify.com/playlist/6vUc7Dv9MNFFEQOUqtrW0l" target="_blank" rel="noopener">Summer Playlist #6</a>.</footer>
 <div id="dock" role="region" aria-label="Now playing">
   <a id="dLink" href="https://open.spotify.com/playlist/6vUc7Dv9MNFFEQOUqtrW0l" target="_blank" rel="noopener" aria-label="Open in Spotify"><span class="cv" id="dArt"></span></a>
   <div class="meta"><div class="t" id="dT"></div><div class="a" id="dA"></div><div class="prog"><b id="dProg"></b></div></div>
@@ -441,7 +531,7 @@ const CH = [
    S('4dUOhTTMy4ITIbNQKPKYFP','Going Shopping','The Strokes','Anonymous','I started hearing it a lot as spring bled into summer.'),
    S('7s2kWabRM60W9I61HpKg8C','Solar Power','Lorde','Carrie S.'),
    S('75GyGLjB9yFLTVltUlDVKI','dirty wedding dress','Bleachers','Rebecca J.'),
-   S('3zOYmiNOuyDL0ClxJcEJ0T','Stop The Wedding!','Ashe','Added on Spotify')
+   S('3zOYmiNOuyDL0ClxJcEJ0T','Stop The Wedding!','Ashe','Caroline')
  ]},
  {id:'repeat', style:'ipod', min:495, label:'8:15 AM', title:'On Repeat', feature:'25nbeJzxF3dwvtTq57QKZi',
   dek:'Whole albums, worn thin on the commute.', top:'#7fdcff', bot:'#d6ff8f',
@@ -461,7 +551,7 @@ const CH = [
    S('6MEDfjHxnVNcYmHe3mM6L2','Sweet Life','Frank Ocean','Xin',null,{icon:'sun'}),
    S('3QuRLv8zkIYH31O5VgEpmo',"Carla's Song",'Harry Styles','Suporna',null,{icon:'note',note:'Her second choice. Her first pick, Midnight Sun, was already on the list.'})
  ]},
- {id:'loud', style:'snap', min:980, label:'4:20 PM', title:'Full Volume', feature:'2J051fjLklkoPbzOoTAACZ',
+ {id:'loud', style:'snap', min:960, label:'4:00 PM', title:'Full Volume', feature:'2J051fjLklkoPbzOoTAACZ',
   dek:'Windows down, kids singing, somebody doing the dance.', top:'#ffbe2e', bot:'#ff7a3d',
   songs:[
    S('2J051fjLklkoPbzOoTAACZ','Sally, When The Wine Runs Out','ROLE MODEL','Noah','My son loves to sing it at full volume.'),
@@ -469,7 +559,7 @@ const CH = [
    S('5CKbUv7zkOdf8X2602qgei','Joy.','RAYE, Amma, Absolutely','Nicole','The beat and lyrics of this song just always puts a smile on my face and makes me want to dance!'),
    S('3WMbD1OyfKuwWDWMNbPQ4g','Daddy Cool','Boney M.','G$','Good old school vibe.'),
    S('6i2ifddYVX3yKRd9DO25mj','Rein Me In','Sam Fender, Olivia Dean','Becca'),
-   S('1o9mAOmNm3wT2NdyGV1Ard','Babydoll','Jamie Miller','Added on Spotify')
+   S('1o9mAOmNm3wT2NdyGV1Ard','Babydoll','Jamie Miller','Caroline')
  ]},
  {id:'live', style:'insta', min:1198, label:'7:58 PM', title:'Saw It Live', feature:'4mYALBEaw2EEyuxJ2PhYwG',
   dek:'Three songs that got bigger once we heard them in a crowd.', top:'#d5417a', bot:'#ff9a4a',
@@ -513,11 +603,21 @@ const PLAY = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z
 const EQ = '<span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>';
 const mmss = ms => `${Math.floor(ms/60000)}:${String(Math.round(ms/1000)%60).padStart(2,'0')}`;
 function pvBtn(s){ return s.prev ? `<button type="button" class="pv" data-play="${s.sp}" aria-label="Play a preview of ${esc(s.t)}">${PLAY}${EQ}<span>Preview</span></button>` : ''; }
+/* YouTube video IDs by Spotify track ID. Songs not listed fall back to a YouTube search. */
+const YT={
+ '4dUOhTTMy4ITIbNQKPKYFP':'4u3iI1WuU0k','7s2kWabRM60W9I61HpKg8C':'wvsP_lzh2-8','75GyGLjB9yFLTVltUlDVKI':'uEWr6mENsPA','3zOYmiNOuyDL0ClxJcEJ0T':'DLV8FpyxZPQ',
+ '4y3VBhJPEztyRmNxfK3tZ5':'03adZFmWjOk','3rfHA1jNeTCVoU5WUxaKjN':'SKs80r2Lp34','4f50UTC41M2Ah5itifSGE5':'wo5ArzGNKTI','25nbeJzxF3dwvtTq57QKZi':'nBv5BzFpvvE',
+ '4w3tQBXhn5345eUXDGBWZG':'UbxUSsFXYo4','42qweWuaXhr0JDSXduI1xD':'a_O1kI6B9Bc','4jDkjMVf4FqGQRgBIMZez1':'LoJVGpmuwm0','3PEZQCkCP37Dn9MBn3Imys':'7ejA6VDP4Ps','3QuRLv8zkIYH31O5VgEpmo':'JmpxAej67qc',
+ '2J051fjLklkoPbzOoTAACZ':'F1oKhsy8wGw','0kosUz0jePvjiz4ctmR6wL':'fcnDmrtj6Sk','5CKbUv7zkOdf8X2602qgei':'invZIgVL2wo','3WMbD1OyfKuwWDWMNbPQ4g':'FYGTT7YhywA','6i2ifddYVX3yKRd9DO25mj':'3triLkS0nq4','1o9mAOmNm3wT2NdyGV1Ard':'LkJ_b_YYUnE',
+ '5zX4JjkoT2pgvlWPnjgVNQ':'CsRTKXYEhOM','4vGQNeWAh2WKPYsqhp5wSg':'MKskYvTGEHE','4mYALBEaw2EEyuxJ2PhYwG':'pzlhFHTALAg',
+ '6wm3t4VpTxSFfOUgTMlHZM':'Gf-fCJ6TkRU','65DbTqJKhbwqYbZ1Okr0rc':'nUsrYVxrDwI','7g13jf3zqlP5S68Voo5v9m':'CcNo07Xp8aQ','4VGR3mr2WbiD0splKGasFc':'UWnE9sCJEgw','1ZBQPkEYHOv3LfgU6v0h0S':'9tMe_LpUHAQ',
+ '37UCSVSqiPGdR1DijOFyYY':'uvY8fdgezLQ','29I9dv9Nq704w0Oc5yFGsR':'QZrcXTHqQ_c','3FZoov0ORtnr8TznSNI1y2':'oQfWa3WQXqg','6VUaAD8oNmQbWh8e8zuB1u':'uAsSCDGnJxE','20I8RduZC2PWMWTDCZuuAN':'Ijk4j-r7qPA'
+};
 function links(s){
   const q = encodeURIComponent((s.t.replace(/\(.*?\)/g,'') + ' ' + (s.a||'')).trim());
   const name = esc(s.t);
   const sp = s.sp ? `https://open.spotify.com/track/${s.sp}` : `https://open.spotify.com/search/${q}`;
-  const yt = s.yt || 'https://music.youtube.com/search?q=' + q;
+  const yt = s.yt || (YT[s.sp] ? 'https://www.youtube.com/watch?v=' + YT[s.sp] : 'https://www.youtube.com/results?search_query=' + q + encodeURIComponent(' music video'));
   return `<div class="links">${pvBtn(s)}
     <a href="${sp}" target="_blank" rel="noopener" aria-label="${name} on Spotify">Spotify ${ARROW}</a>
     <a href="https://music.apple.com/us/search?term=${q}" target="_blank" rel="noopener" aria-label="Find ${name} on Apple Music">Apple Music ${ARROW}</a>
@@ -677,7 +777,71 @@ R.insta = c => `
 
 const TAVA=['#529ecc','#e17055','#56bc8a','#a77dc2','#f2992e'];
 const slug = s => s.toLowerCase().replace(/[^a-z0-9$ ]/g,'').trim().replace(/\s+/g,'-');
-R.tumblr = c => `
+/* TI-30XS mascot (styles + animation: search "TI-30XS mascot" in the CSS). Face and screen text swap per scene. */
+const CALC = (()=>{
+  // keypad modelled on the real TI-30XS MultiView: dark oval function keys, green 2nd, white number block, arrow pad top right
+  const X=[70,85,100,115,130], Y=r=>+(112+r*9.8).toFixed(1);
+  const KEYS=[
+    ['2nd','d','d','',''],['d','d','d','',''],['d','d','d','d','d'],['d','d','d','d','d'],['d','d','d','d','d'],
+    ['d','7','8','9','d'],['d','4','5','6','d'],['d','1','2','3','d'],['d','0','.','(−)','enter']];
+  let keys='';
+  KEYS.forEach((row,r)=>row.forEach((k,c)=>{
+    if(!k) return;
+    const x=X[c], y=Y(r);
+    if(r<5 || c===0) keys+=`<rect class="k2" x="${x-2.5}" y="${(y-5.2).toFixed(1)}" width="5" height=".9"/>`;
+    if(k==='2nd') keys+=`<rect x="${x-5.5}" y="${y-3}" width="11" height="6" rx="3" fill="#8cc63f"/>`;
+    else if(k==='d') keys+=`<rect x="${x-5.5}" y="${y-3}" width="11" height="6" rx="3" fill="#22384a"/><rect class="kl" x="${x-2}" y="${y-.45}" width="4" height=".9"/>`;
+    else if(k==='enter') keys+=`<rect x="${x-6}" y="${y-3.2}" width="12" height="6.4" rx="3.2" fill="#eef0f2"/>`;
+    else keys+=`<rect x="${x-6}" y="${y-3.5}" width="12" height="7" rx="1.6" fill="#eef0f2"/><text class="kn" x="${x}" y="${(y+1.8).toFixed(1)}">${k}</text>`;
+  }));
+  return `
+  <div class="cb" aria-hidden="true"><div class="cb-stick">
+    <svg viewBox="0 0 200 260" role="presentation" focusable="false">
+      <ellipse class="cb-shadow" cx="100" cy="247" rx="42" ry="5" fill="rgba(0,0,0,.28)"/>
+      <g class="cb-char">
+        <g><path class="limb" d="M82 202v28"/><ellipse class="shoe" cx="78" cy="235" rx="10" ry="4.8"/></g>
+        <g class="cb-legR"><path class="limb" d="M118 202v28"/><ellipse class="shoe" cx="122" cy="235" rx="10" ry="4.8"/></g>
+        <path d="M70 18H130Q146 18 146 34V186Q146 204 128 204H72Q54 204 54 186V34Q54 18 70 18Z" fill="#e9ecef" stroke="#b8c0c8" stroke-width="1.2"/>
+        <path d="M73 23H127Q141 23 141 37V185Q141 199 127 199H73Q59 199 59 185V37Q59 23 73 23Z" fill="#3f6f86"/>
+        <text class="brand" x="100" y="35">TI-30XS</text>
+        <text class="brand2" x="100" y="41.5">MultiView</text>
+        <rect x="82" y="45" width="36" height="8" rx="1" fill="#262b33"/>
+        <path d="M91 45v8M100 45v8M109 45v8" stroke="#3d4450" stroke-width=".8"/>
+        <rect x="63" y="57" width="74" height="46" rx="3" fill="#1f2a33"/>
+        <rect x="66" y="60" width="68" height="40" rx="1.5" fill="#c4cbc0"/>
+        <text class="lcd" x="131" y="65" text-anchor="end" style="font-size:3.6px">DEG</text>
+        <text class="lcd cb-t cb-t1" x="69" y="68">1.05^-10</text>
+        <text class="lcd cb-t cb-t2" x="69" y="68" style="font-size:6px">SYNTAX ERROR</text>
+        <text class="lcd cb-t cb-t3" x="69" y="68">zzz...</text>
+        <text class="lcd cb-t cb-t4" x="69" y="68">TIME?!</text>
+        <text class="lcd cb-r cb-r0" x="131" y="98" text-anchor="end">0.</text>
+        <text class="lcd cb-r cb-r1" x="131" y="98" text-anchor="end">0.6139</text>
+        <g class="cb-f cb-f1"><g class="cb-eyes"><rect class="fill" x="83.5" y="74" width="5" height="7" rx="1"/><rect class="fill" x="111.5" y="74" width="5" height="7" rx="1"/></g><path class="ln" d="M93 86q7 6 14 0"/></g>
+        <g class="cb-f cb-f2"><circle class="fill" cx="86" cy="79" r="2.6"/><circle class="fill" cx="114" cy="79" r="2.6"/><path class="ln" d="M80 74l10-3.5M120 74l-10-3.5"/><path class="ln" d="M90 89q3-3.5 6.5 0t6.5 0t6.5 0"/></g>
+        <g class="cb-f cb-f3"><path class="ln" d="M81 79q5-6 10 0M109 79q5-6 10 0"/><path class="ln" d="M96 89h8"/></g>
+        <g class="cb-f cb-f4"><path class="ln" d="M81 78h10M109 78h10"/><circle class="cb-o fill" cx="100" cy="89" r="2.6"/></g>
+        <g class="cb-f cb-f5"><circle class="ln" cx="86" cy="78" r="4.5"/><circle class="ln" cx="114" cy="78" r="4.5"/><circle class="fill" cx="86" cy="78" r="1.5"/><circle class="fill" cx="114" cy="78" r="1.5"/><ellipse class="fill" cx="100" cy="90" rx="3.8" ry="4.6"/></g>
+        <g class="cb-f cb-f6"><path class="ln" d="M81 79q5-7 10 0M109 79q5-7 10 0"/><path class="fill" d="M90 85q10 13 20 0z"/></g>
+        <circle cx="122.5" cy="116.9" r="8.6" fill="#c9ced3"/><circle cx="122.5" cy="116.9" r="7" fill="#3b4148"/>
+        <path d="M122.5 111.2l-1.4 1.8h2.8zM122.5 122.6l-1.4-1.8h2.8zM116.8 116.9l1.8-1.4v2.8zM128.2 116.9l-1.8-1.4v2.8z" fill="#8b939c"/>
+        ${keys}
+        <path class="drop cb-drop cb-dropA" transform="translate(48 56)" d="M0 0C3 5 4 8 0 10C-4 8-3 5 0 0z"/>
+        <path class="drop cb-drop cb-dropB" transform="translate(152 60)" d="M0 0C3 5 4 8 0 10C-4 8-3 5 0 0z"/>
+        <text class="z cb-z1" x="146" y="32">Z</text><text class="z cb-z2" x="154" y="22" style="font-size:10px">Z</text><text class="z cb-z3" x="142" y="16" style="font-size:8px">Z</text>
+        <g class="cb-armR"><path class="limb" d="M148 90v36"/><circle class="hand" cx="148" cy="128" r="6"/></g>
+        <g class="cb-armL"><path class="limb" d="M52 90v36"/>
+          <g class="cb-mug">
+            <rect x="45" y="119" width="15" height="17" rx="2.5" fill="#f4efe6" stroke="#2b3342" stroke-width="1.2"/>
+            <path d="M45 124h-4a4 4 0 0 0 0 8h4" fill="none" stroke="#f4efe6" stroke-width="2.4"/>
+            <ellipse cx="52.5" cy="120.5" rx="6.5" ry="1.8" fill="#6b4226"/>
+            <path class="cb-steam" d="M49 114q-3-4 0-7t0-6M56 114q-3-4 0-7t0-6" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/>
+          </g>
+          <circle class="hand" cx="52" cy="128" r="6"/></g>
+      </g>
+    </svg>
+  </div></div>`;
+})();
+R.tumblr = c => `${CALC}
   <div class="wrap">
   <div class="dash-bar reveal"><span class="logo">t</span><span class="search">Search #summer26</span><span class="tick" data-min="${c.min}" style="font:600 13px var(--f-body)">${c.label}</span></div>
   <div class="dash-head"><div class="chapter-k" style="color:#f7c6e0">Dashboard</div><h2>${esc(c.title)}</h2><p>${esc(c.dek)}</p></div>
@@ -743,7 +907,6 @@ CH.forEach(c=>{
 });
 document.querySelectorAll('[data-d]').forEach(el=>el.style.transitionDelay=(el.dataset.d*90)+'ms');
 document.getElementById('heroTitle').style.textShadow = longShadow('rgba(80,30,90,.10)',40);
-document.getElementById('songCount').textContent = ALL.length;
 
 /* ---------- pixel art: skyline + pixelated covers ---------- */
 (function(){
